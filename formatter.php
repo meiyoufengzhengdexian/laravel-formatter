@@ -304,7 +304,15 @@ class Formatter
 			if (is_numeric($key))
 			{
 				// make string key...
-				$key = (\Str::singular($basenode) != $basenode) ? \Str::singular($basenode) : 'item';
+				// $key = (\Str::singular($basenode) != $basenode) ? \Str::singular($basenode) : 'item';
+				if(Str::singular($basenode) != $basenode){
+                    $key = Str::singular($basenode);
+                }else if(is_object($value)){
+                    $ref = new ReflectionClass($value);
+                    $key = basename($ref->getName());
+                }else{
+                    $key = 'item';
+                }
 			}
 
 			// replace anything not alpha numeric
